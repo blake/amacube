@@ -428,7 +428,12 @@ if ( $this->ama_admin === true ) { $messages_table->add_header('recipient',rcube
 		            $messages_table->add('release',$this->_show_radio('rel_'.$quarantines[$key]['id'],$quarantines[$key]['id'],'_rel_'.$quarantines[$key]['id']));
 		            $messages_table->add('delete',$this->_show_radio('del_'.$quarantines[$key]['id'],$quarantines[$key]['id'],'_del_'.$quarantines[$key]['id']));
 		            $messages_table->add('date',rcube_utils::rep_specialchars_output(date('Y-m-d H:i:s',$quarantines[$key]['received']), 'html', 'strict', true));
-		            $messages_table->add('subject', $quarantines[$key]['subject'] ? rcube_utils::rep_specialchars_output($quarantines[$key]['subject'], 'html', 'strict', true) : $this->gettext('no subject'));
+					// Truncate subject if over 100 characters
+					if(strlen($quarantines[$key]['subject']) > 100) {
+						$messages_table->add('subject', $quarantines[$key]['subject'] ? rcube_utils::rep_specialchars_output(substr($quarantines[$key]['subject'], 0, 100), 'html', 'strict', true) : $this->gettext('no subject'));
+					}else{
+						$messages_table->add('subject', $quarantines[$key]['subject'] ? rcube_utils::rep_specialchars_output($quarantines[$key]['subject'], 'html', 'strict', true) : $this->gettext('no subject'));
+					}
 		            $messages_table->add('sender',rcube_utils::rep_specialchars_output($quarantines[$key]['sender'], 'html', 'strict', true));
 if ( $this->ama_admin === true ) { $messages_table->add('recipient',rcube_utils::rep_specialchars_output($quarantines[$key]['recipient'], 'html', 'strict', true)); }
 		            $messages_table->add('type',rcube_utils::rep_specialchars_output($this->gettext('content_decode_'.$quarantines[$key]['content']), 'html', 'strict', true));
