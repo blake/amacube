@@ -12,7 +12,7 @@ See the COPYING file for a full license statement.
 
 $labels = array();
 
-$labels['policy_default_message'] = 'Initialized default policy.';
+$labels['policy_default_message'] = 'Initialized default quarantine policy.';
 $labels['spam_check'] = 'Activate spam check';
 $labels['spam_check_active'] = 'activate spam check';
 $labels['spam_check_active_info'] = 'Check here if you want amavis check your incoming mails for their spaminess';
