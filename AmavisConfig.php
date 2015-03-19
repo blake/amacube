@@ -255,7 +255,7 @@ class AmavisConfig extends AmacubeAbstract
 
             foreach ($keys as $k) {
                 if ($k == 'policy_name') {
-                    array_push($query_params,'policy_user_'.$this->user_email);
+                    array_push($query_params,$this->user_email);
                 }
                 else {
                     array_push($query_params, $this->map_to_db($k,$this->policy_setting[$k]));
