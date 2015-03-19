@@ -247,6 +247,12 @@ class AmavisConfig extends AmacubeAbstract
                 }
             }
             $query .= ')';
+
+            // Return ID of inserted row if using PostgreSQL
+            if ($this->db_conn->db_provider == 'postgres') {
+                $query .= " RETURNING id";
+            }
+
             foreach ($keys as $k) {
                 if ($k == 'policy_name') {
                     array_push($query_params,'policy_user_'.$this->user_email);
@@ -265,7 +271,13 @@ class AmavisConfig extends AmacubeAbstract
 		}
         // Check for user on insert policy
         if (empty($this->policy_pk)) {
-            $this->policy_pk = $this->db_conn->insert_id();
+
+            // Retrieve last insert ID from result of INSERT query
+            if($this->db_conn->db_provider == 'postgres'){
+                $this->policy_pk = $res->fetch(PDO::FETCH_ASSOC)['id'];
+            }else{
+                $this->policy_pk = $this->db_conn->insert_id();
+            }
             // Error check
             if (empty($this->policy_pk)) {
             	$this->rc->amacube->errors[] = 'db_query_error';
