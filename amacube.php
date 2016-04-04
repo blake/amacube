@@ -128,7 +128,9 @@ class amacube extends rcube_plugin
         $output = '';
 		// Add header to output
 		$output .= html::tag('h1', array('class' => 'boxtitle'), Q($this->gettext('filter_settings_pagetitle')));
-		
+	
+	// Enable scrolling
+	$output .= '<div class="scroller">';
         // Create output : table (checks)
         $output_table = new html_table(array('cols' => 2, 'cellpadding' => 3, 'class' => 'propform'));
         // Create output : table : checkbox : spam check
@@ -237,6 +239,9 @@ class amacube extends rcube_plugin
         );
 		// Add button to output
 		$output .= $output_button;
+        
+        // Close div for scrolling
+        $output .= '</div>';
         // Add form to client
         $this->rc->output->add_gui_object('amacubeform', 'amacubeform');
 		// Send feedback
