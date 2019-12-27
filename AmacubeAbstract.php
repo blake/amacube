@@ -35,14 +35,20 @@ class AmacubeAbstract {
     // Connect to DB
     function init_db()
     {
+        // Return false if DSN is not set
+        $dsn = $this->db_config;
+        if (!$dsn){
+            return false;
+        }
+
         // Initialize a persistent DB connection
         if (!$this->db_conn) {
             if (!class_exists('rcube_db')) {
             	// Version: < 0.9
-                $this->db_conn = new rcube_mdb2($this->db_config, '', TRUE);
+                $this->db_conn = new rcube_mdb2($dsn, '', TRUE);
             } else {
             	// Version: > 0.9
-                $this->db_conn = rcube_db::factory($this->db_config, '', TRUE);
+                $this->db_conn = rcube_db::factory($dsn, '', TRUE);
             }
         }
         $this->db_conn->db_connect('w');
