@@ -47,7 +47,7 @@ class AmavisQuarantine extends AmacubeAbstract
 		}
         $query = "
             SELECT
-              UNIX_TIMESTAMP()-msgs.time_num AS age,
+              msgs.time_num AS age,
               msgs.time_num AS received,
               SUBSTRING(policy,1,2) as pb,
               msgs.content AS content,
