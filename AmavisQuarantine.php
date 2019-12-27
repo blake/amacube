@@ -125,7 +125,7 @@ class AmavisQuarantine extends AmacubeAbstract
         // logical delete => set RS to D
 	        $query_start = 'UPDATE ';
             $table = 'msgrcpt';
-	        $query_end = ' SET rs = "D" WHERE mail_id in ('.implode(',',array_fill(0, count($mails), '?')).')';
+	        $query_end = " SET rs = 'D' WHERE mail_id in (".implode(',',array_fill(0, count($mails), '?')).')';
 	            $res = $this->db_conn->query($query_start.$table.$query_end, $mails);
 				// Error check
 		        if ($error = $this->db_conn->is_error()) {
@@ -221,7 +221,7 @@ class AmavisQuarantine extends AmacubeAbstract
 // logical release => set RS to R
 	        $query_start = 'UPDATE ';
             $table = 'msgrcpt';
-	        $query_end = ' SET rs = "R" WHERE mail_id in ('.implode(',',array_fill(0, count($success_ids), '?')).')';
+	        $query_end = " SET rs = 'R' WHERE mail_id in (".implode(',',array_fill(0, count($success_ids), '?')).')';
 	            $res = $this->db_conn->query($query_start.$table.$query_end, $success_ids);
 				// Error check
 		        if ($error = $this->db_conn->is_error()) {
