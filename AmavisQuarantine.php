@@ -55,10 +55,10 @@ class AmavisQuarantine extends AmacubeAbstract
               ds AS delivery_status,
               msgs.spam_level AS level,
               size,
-              from_addr AS sender,
+              encode(from_addr::bytea, 'escape') AS sender,
               recip.email AS recipient,
               msgs.subject AS subject,
-              msgs.mail_id AS id
+              encode(msgs.mail_id::bytea, 'escape') AS id
               FROM msgs LEFT JOIN msgrcpt    AS msgrcpt ON msgs.mail_id=msgrcpt.mail_id
                         LEFT JOIN maddr      AS sender ON msgs.sid=sender.id
                         LEFT JOIN maddr      AS recip  ON msgrcpt.rid=recip.id
@@ -151,7 +151,7 @@ class AmavisQuarantine extends AmacubeAbstract
         if (is_array($mails)) {
 			if (count($mails) <= 0) { return true; }
 	        // Check mail_ids and secret_ids from database
-	        $query 			= 'select mail_id,secret_id,quar_type from msgs where mail_id in ('.implode(',',array_fill(0, count($mails), '?')).')';
+	        $query 			= "select encode(mail_id, 'escape') AS mail_id,encode(secret_id, 'escape') AS secret_id,quar_type from msgs where mail_id in (".implode(',',array_fill(0, count($mails), '?')).')';
 	        $res 			= $this->db_conn->query($query, $mails);
 			$error			= false;
 			// Error check
